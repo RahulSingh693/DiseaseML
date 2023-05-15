@@ -75,12 +75,13 @@ def prediction():
     bmi = int(request.form['BMI'])
     age = int(request.form['Age'])
 
-    output = model1.predict([[Glucose, Blood, Insulin, bmi, age]])
+    output = model1.predict_proba([[Glucose, Blood, Insulin, bmi, age]])
+    probas_yes = output[:, 1]
+    probas_no = output[:, 0]
+    percent_yes = sum(probas_yes) / len(probas_yes) * 100
+    percent_no = sum(probas_no) / len(probas_no) * 100
 
-    if output[0] == 0:
-        return render_template('Diabetes.html', pred="The Person is not diabetic.")
-    else:
-        return render_template('Diabetes.html', pred="The person is diabetic.")
+    return render_template('Diabetes.html', yes=percent_yes, no=percent_no)
 
 # ---------------------- Heart Predictions ---------------------------
 
@@ -94,13 +95,12 @@ def prediction1():
     thal = int(request.form['thal'])
     slope = int(request.form['slope'])
 
-    output = model1.predict_proba([[Glucose, Blood, Insulin, bmi, age]])
-    probas_yes = output[:, 1]
-    probas_no = output[:, 0]
-    percent_yes = sum(probas_yes) / len(probas_yes) * 100
-    percent_no = sum(probas_no) / len(probas_no) * 100
+    output1 = model2.predict([[age1, cp, trestbps, cholestrol, thal, slope]])
 
-    return render_template('Diabetes.html', yes=percent_yes, no=percent_no)
+    if output1[0] == 0:
+        return render_template('Heart.html', predi="The Person has no heart disease.")
+    else:
+        return render_template('Heart.html', predi="The person has heart disease.")
 
 # ---------------------- Parkinson Predictions ---------------------------
 
