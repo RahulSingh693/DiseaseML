@@ -123,13 +123,13 @@ def prediction2():
     d2 = float(request.form['d2'])
     ppe = float(request.form['ppe'])
 
-    output2 = model3.predict([[mdvpfhi, mdvpflo, mdvpjitter, mdvpshi, mdvpshidb,
-                             shiq3, shiq5, mdvpapq, shidda, rpde, spread1, spread2, d2, ppe]])
+    output2 = model3.predict_proba([[mdvpfhi, mdvpflo, mdvpjitter, mdvpshi, mdvpshidb,shiq3, shiq5, mdvpapq, shidda, rpde, spread1, spread2, d2, ppe]])
+    probas_yes2 = output2[:, 1]
+    probas_no2 = output2[:, 0]
+    percent_yes2 = sum(probas_yes2) / len(probas_yes2) * 100
+    percent_no2 = sum(probas_no2) / len(probas_no2) * 100
 
-    if output2[0] == 0:
-        return render_template('Parkinson.html', predic="The Person has no parkinson.")
-    else:
-        return render_template('Parkinson.html', predic="The person has parkinson.")
+    return render_template('Parkinson.html', yes2=percent_yes2, no2=percent_no2)
 
 # ---------------------- Main Class ---------------------------
 
