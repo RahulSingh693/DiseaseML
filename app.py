@@ -95,12 +95,13 @@ def prediction1():
     thal = int(request.form['thal'])
     slope = int(request.form['slope'])
 
-    output1 = model2.predict([[age1, cp, trestbps, cholestrol, thal, slope]])
+    output1 = model2.predict_proba([[age1, cp, trestbps, cholestrol, thal, slope]])
+    probas_yes1 = output1[:, 1]
+    probas_no1 = output1[:, 0]
+    percent_yes1 = sum(probas_yes1) / len(probas_yes1) * 100
+    percent_no1 = sum(probas_no1) / len(probas_no1) * 100
 
-    if output1[0] == 0:
-        return render_template('Heart.html', predi="The Person has no heart disease.")
-    else:
-        return render_template('Heart.html', predi="The person has heart disease.")
+    return render_template('Heart.html', yes1=percent_yes1, no1=percent_no1)
 
 # ---------------------- Parkinson Predictions ---------------------------
 
