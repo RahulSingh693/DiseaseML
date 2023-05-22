@@ -1,1 +1,2 @@
-# DiseaseML
+# Visit "diseaseai.onrender.com"                                                                                                                                    
+This project aims to provide an easy-to-use and accessible platform for disease prediction and BMI calculation. The project utilizes various machine learning models, including random forest, KNN, decision tree, and SVM, to make accurate predictions for heart disease, Parkinson's disease, and diabetes. The website is user-friendly and designed to provide an intuitive interface for users to input their details and get results.
